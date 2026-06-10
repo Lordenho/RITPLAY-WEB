@@ -23,7 +23,7 @@ const AVATAR_NAMES: string[] = [
   'Chocalho Quente', 'Faca e Prato', 'Maracatu Flash', 'Samba Reggae Star'
 ];
 
-export function renderAvatarSvg(id: number, sizeClass: string = 'w-12 h-12') {
+export function renderAvatarSvg(id: number, sizeClass: string = 'w-12 h-12', className: string = '') {
   // Generate harmonious distinct color sets based on the avatar offset
   const hue = (id * 27) % 360;
   const secondaryHue = (hue + 140) % 360;
@@ -31,7 +31,7 @@ export function renderAvatarSvg(id: number, sizeClass: string = 'w-12 h-12') {
   const color2 = `hsl(${secondaryHue}, 75%, 35%)`;
 
   return (
-    <svg className={`${sizeClass} rounded-full border border-gray-800 shadow-md`} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={`${sizeClass} rounded-full border border-gray-800 shadow-md ${className}`} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id={`grad-${id}`} cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor={`hsl(${hue}, 90%, 55%)`} />
@@ -101,22 +101,9 @@ export function renderAvatarSvg(id: number, sizeClass: string = 'w-12 h-12') {
 }
 
 export function AvatarImage({ id, sizeClass = 'w-12 h-12', className = '' }: { id: number, sizeClass?: string, className?: string }) {
-  const [hasError, setHasError] = useState(false);
-  const avatarUrl = `https://lucasgandrade.github.io/ritplay/02-WEBVIEW-APP-PRIORIDADE/images/avatars/avatar${id}.png`;
-
-  if (hasError) {
-    return renderAvatarSvg(id, sizeClass);
-  }
-
-  return (
-    <img
-      src={avatarUrl}
-      alt={AVATAR_NAMES[id - 1] || 'Avatar'}
-      className={`${sizeClass} rounded-full border border-gray-800/80 bg-gray-900 object-cover shadow-md ${className}`}
-      onError={() => setHasError(true)}
-      referrerPolicy="no-referrer"
-    />
-  );
+  // Directly render the fully offline local vector SVG representation as the primary asset source,
+  // removing any external URL dependency as the main source and keeping it fully robust offline.
+  return renderAvatarSvg(id, sizeClass, className);
 }
 
 export default function AvatarSelector({ currentAvatarId, onSelect, onClose }: AvatarSelectorProps) {

@@ -18,9 +18,8 @@ interface CadenceCreatorProps {
 export default function CadenceCreator({ onBack, username }: CadenceCreatorProps) {
   const [cadences, setCadences] = useState<CadenceNode[]>([]);
   const [selectedCadenceId, setSelectedCadenceId] = useState<string>('');
-  const [name, setName] = useState<string>('Minha Aliança Rítmica');
+  const [name, setName] = useState<string>('Nova Cadência');
   const [bpm, setBpm] = useState<number>(95);
-  const [activeChannel, setActiveChannel] = useState<number>(0); // 0: Bongo 1 (Agudo), 1: Bongo 2 (Grave)
   
   // 16-step grid for 2 percussive channels
   const [grid, setGrid] = useState<boolean[][]>([
@@ -56,7 +55,7 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
   const handleSelectCadence = (id: string) => {
     setSelectedCadenceId(id);
     if (!id) {
-      setName('Minha Aliança Rítmica');
+      setName('Nova Cadência');
       setBpm(95);
       setGrid([Array(16).fill(false), Array(16).fill(false)]);
       return;
@@ -144,35 +143,35 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
         if (grid[1][idx]) syncopationHits++;
       });
 
-      let grade = 'Iniciante do Pulso';
-      let description = 'Sua cadência tem um ritmo linear básico, perfeito para treinar estabilidade.';
+      let grade = 'Cadência Linear Básica';
+      let description = 'Sua cadência possui uma pulsação simples e uniforme, ideal para treinar estabilidade.';
       let syncText = 'Baixa';
       let pointsReward = 15;
 
       if (totalActive === 0) {
-        grade = 'Silêncio Sagrado';
-        description = 'Nenhum som inserido no compasso. Adicione batidas rítmicas para iniciar a festa!';
-        syncText = 'Inexistente';
+        grade = 'Sem Batidas';
+        description = 'Nenhum som foi inserido no compasso. Adicione batidas nos pads para compor o seu ritmo!';
+        syncText = 'Não definida';
         pointsReward = 0;
       } else if (syncopationHits >= 6 && densityVal <= 65) {
-        grade = 'Groove de Síncope Alinhado';
-        description = 'Incrível! Padrões complexos de contratempos que desafiam qualquer baterista.';
-        syncText = 'Extremamente Alta';
+        grade = 'Cadência Síncopada Dinâmica';
+        description = 'Excelente padrão com forte presença de contratempos e síncopes.';
+        syncText = 'Alta';
         pointsReward = 45;
       } else if (densityVal > 70) {
-        grade = 'Furacão Percussivo';
-        description = 'Grande densidade de toques! Cria uma energia impressionante e contagiante.';
+        grade = 'Ritmo de Alta Densidade';
+        description = 'Frequência intensa de toques, criando um som encorpado e enérgico.';
         syncText = 'Moderada';
         pointsReward = 30;
       } else if (totalActive >= 10) {
-        grade = 'Polirritmia Fluida';
-        description = 'Balanço fantástico entre Bongo Agudo e Grave, digno de mestre do repique!';
-        syncText = 'Alta';
+        grade = 'Cadência Balanceada Ampla';
+        description = 'Ótimo equilíbrio rítmico entre as notas agudas e graves dos bongos.';
+        syncText = 'Fiel';
         pointsReward = 40;
       } else if (totalActive >= 4) {
-        grade = 'Pulso Estável Coerente';
-        description = 'Boa distribuição das células rítmicas. Proporciona um loop confortável para estudo.';
-        syncText = 'Equilibrada';
+        grade = 'Cadência Regular Coerente';
+        description = 'Distribuição harmoniosa das células rítmicas com um andamento confortável.';
+        syncText = 'Normal';
         pointsReward = 25;
       }
 
@@ -226,7 +225,7 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
       bpm,
       grid,
       metronomeType: 'Classic',
-      hitSoundType: activeChannel === 0 ? 'Bongo 1' : 'Bongo 2',
+      hitSoundType: 'Bongo 1',
       author: username || 'Mestre do Groove'
     };
 
@@ -273,13 +272,13 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
           <span>Voltar ao Menu</span>
         </button>
         <span className="text-xs uppercase font-mono text-[#06b6d4] bg-[#06b6d4]/10 px-2.5 py-1 rounded-full border border-cyan-500/10 tracking-widest font-bold">
-          ESTÚDIO DE COMPOSIÇÃO
+          CRIAR CADÊNCIA
         </span>
       </div>
 
       {/* Model templates loader selector board */}
       <div className="bg-[#111827] border border-gray-800/80 p-3.5 rounded-xl space-y-2">
-        <label className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest font-mono block">Escolher Modelo / Template</label>
+        <label className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest font-mono block">Carregar Modelo de Cadência</label>
         <select
           value={selectedCadenceId}
           onChange={(e) => handleSelectCadence(e.target.value)}
@@ -299,7 +298,7 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
         <div className="flex space-x-3 items-end">
           {/* Custom Name input */}
           <div className="flex-1 space-y-1">
-            <span className="text-[10px] font-bold text-gray-400 uppercase font-mono tracking-wider block">ID do Ritmo</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase font-mono tracking-wider block">Título do Ritmo</span>
             <input
               type="text"
               value={name}
@@ -332,83 +331,100 @@ export default function CadenceCreator({ onBack, username }: CadenceCreatorProps
           </div>
         </div>
 
-        {/* Channels toggle selectors (Instrument track layout, no generic sequenced row line) */}
-        <div className="space-y-1.5">
-          <span className="text-[10px] font-bold text-gray-400 uppercase font-mono tracking-widest block">Canal Instrumento</span>
-          <div className="flex bg-[#0d121f] rounded-xl p-1 border border-gray-800">
-            <button
-              type="button"
-              onClick={() => setActiveChannel(0)}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-                activeChannel === 0
-                  ? 'bg-gradient-to-tr from-[#06b6d4]/10 to-[#06b6d4]/30 text-[#06b6d4] border border-[#06b6d4]/40 shadow-inner'
-                  : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>Bongo Agudo (1)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveChannel(1)}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center space-x-1.5 ${
-                activeChannel === 1
-                  ? 'bg-gradient-to-tr from-pink-500/10 to-pink-500/30 text-pink-400 border border-pink-500/40 shadow-inner'
-                  : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>Bongo Grave (2)</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Gorgeous professional 4x4 MPC/Drum Pad Board representing steps 1-16 (no visual holes) */}
-        <div className="space-y-2">
+        {/* Gorgeous professional simultaneous MPC/Drum Pad Board representing steps 1-16 */}
+        <div className="space-y-3">
           <div className="flex justify-between items-center text-[10px] font-mono text-gray-500">
-            <span>RITPLAY MPC PADS</span>
-            <span>Compasso dividido em beats</span>
+            <span>GRID DE PADS SIMULTÂNEO</span>
+            <span>Arraste horizontalmente para ver os 16 passos</span>
           </div>
 
-          <div id="pad-grid" className="grid grid-cols-4 gap-3 bg-[#0d121f] p-4 rounded-2xl border border-gray-800/80 shadow-inner relative">
-            {/* Ambient dynamic playhead row scanner bar */}
-            {isPlaying && currentStep !== -1 && (
-              <div className="absolute inset-x-0 h-0.5 bg-yellow-400/20 blur-[1px] pointer-events-none" />
-            )}
+          <div id="pad-grid" className="bg-[#0d121f] p-4 rounded-2xl border border-gray-800/80 shadow-inner relative overflow-hidden">
+            <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-850">
+              <div className="min-w-[500px] space-y-4">
+                
+                {/* Header Row: Step Numbers */}
+                <div className="flex items-center">
+                  <div className="w-16 shrink-0 text-[10px] font-bold text-gray-400 font-mono">
+                    Comp.
+                  </div>
+                  <div className="flex-1 grid gap-1 w-full text-center" style={{ gridTemplateColumns: 'repeat(16, minmax(0, 1fr))' }}>
+                    {Array.from({ length: 16 }).map((_, i) => {
+                      const isCursor = currentStep === i;
+                      return (
+                        <div key={i} className={`text-[10px] font-mono font-bold py-0.5 rounded ${isCursor ? 'text-yellow-400 bg-yellow-400/10' : 'text-gray-500'}`}>
+                          {i + 1}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            {Array.from({ length: 16 }).map((_, stepIdx) => {
-              const isActive = grid[activeChannel][stepIdx];
-              const isCursor = currentStep === stepIdx;
-              
-              // alternate beat groups color for immediate visual metrics division (e.g. 1-4, 5-8, etc)
-              const grp = Math.floor(stepIdx / 4) % 2 === 0;
-              
-              return (
-                <button
-                  key={stepIdx}
-                  type="button"
-                  onClick={() => handleTogglePad(activeChannel, stepIdx)}
-                  className={`aspect-square rounded-2xl flex flex-col items-center justify-between p-3.5 border transition-all active:scale-[0.93] duration-100 ${
-                    isActive
-                      ? activeChannel === 0
-                        ? 'bg-gradient-to-br from-cyan-500 to-cyan-700 border-cyan-400 text-white shadow-xl shadow-cyan-500/20'
-                        : 'bg-gradient-to-br from-pink-500 to-pink-700 border-pink-400 text-white shadow-xl shadow-pink-500/20'
-                      : grp
-                        ? 'bg-[#111827] border-gray-800 text-gray-400 hover:border-gray-700'
-                        : 'bg-[#182030] border-gray-800/80 text-gray-400 hover:border-gray-700'
-                  } ${isCursor ? 'ring-2 ring-yellow-400 scale-[1.03] z-10' : ''}`}
-                >
-                  <span className="text-[10px] font-mono font-bold self-start leading-none opacity-60">
-                    {stepIdx + 1}
-                  </span>
-                  
-                  <Drum className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-600'}`} />
-                  
-                  {/* Small round glowing bulb */}
-                  <div className={`w-1.5 h-1.5 rounded-full mt-1.5 ${isCursor ? 'bg-yellow-400 shadow-md shadow-yellow-400/40' : isActive ? 'bg-white' : 'bg-transparent'}`} />
-                </button>
-              );
-            })}
+                {/* Bongo Agudo Row */}
+                <div className="flex items-center">
+                  <div className="w-16 shrink-0 flex flex-col justify-center">
+                    <span className="text-[10px] font-extrabold text-cyan-400 font-mono tracking-tight leading-none">AGUDO</span>
+                    <span className="text-[8px] text-gray-500 font-mono">Bongo 1</span>
+                  </div>
+                  <div className="flex-1 grid gap-1 w-full" style={{ gridTemplateColumns: 'repeat(16, minmax(0, 1fr))' }}>
+                    {Array.from({ length: 16 }).map((_, i) => {
+                      const isActive = grid[0][i];
+                      const isCursor = currentStep === i;
+                      const isBeatStart = i % 4 === 0;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleTogglePad(0, i)}
+                          className={`aspect-square rounded-lg border flex flex-col items-center justify-center transition-all duration-75 active:scale-95 ${
+                            isActive
+                              ? 'bg-gradient-to-br from-cyan-400 to-cyan-600 border-cyan-300 text-white shadow shadow-cyan-500/20'
+                              : isBeatStart
+                                ? 'bg-[#182030] border-gray-700/60 text-gray-500 hover:border-gray-500'
+                                : 'bg-[#111827] border-gray-800/40 text-gray-600 hover:border-gray-750'
+                          } ${isCursor ? 'ring-2 ring-yellow-400 scale-[1.05]' : ''}`}
+                          style={{ minHeight: '28px' }}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full ${isCursor ? 'bg-yellow-400' : isActive ? 'bg-white' : 'bg-gray-800'}`} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Bongo Grave Row */}
+                <div className="flex items-center">
+                  <div className="w-16 shrink-0 flex flex-col justify-center">
+                    <span className="text-[10px] font-extrabold text-pink-400 font-mono tracking-tight leading-none">GRAVE</span>
+                    <span className="text-[8px] text-gray-500 font-mono">Bongo 2</span>
+                  </div>
+                  <div className="flex-1 grid gap-1 w-full" style={{ gridTemplateColumns: 'repeat(16, minmax(0, 1fr))' }}>
+                    {Array.from({ length: 16 }).map((_, i) => {
+                      const isActive = grid[1][i];
+                      const isCursor = currentStep === i;
+                      const isBeatStart = i % 4 === 0;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleTogglePad(1, i)}
+                          className={`aspect-square rounded-lg border flex flex-col items-center justify-center transition-all duration-75 active:scale-95 ${
+                            isActive
+                              ? 'bg-gradient-to-br from-pink-400 to-pink-600 border-pink-300 text-white shadow shadow-pink-500/20'
+                              : isBeatStart
+                                ? 'bg-[#182030] border-gray-700/60 text-gray-500 hover:border-gray-500'
+                                : 'bg-[#111827] border-gray-800/40 text-gray-600 hover:border-gray-750'
+                          } ${isCursor ? 'ring-2 ring-yellow-400 scale-[1.05]' : ''}`}
+                          style={{ minHeight: '28px' }}
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full ${isCursor ? 'bg-yellow-400' : isActive ? 'bg-white' : 'bg-gray-800'}`} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>

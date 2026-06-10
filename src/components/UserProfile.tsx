@@ -29,43 +29,51 @@ export default function UserProfile({ user, onLogout, onOpenAvatarSelector }: Us
     switch (patent) {
       case 'Lenda do Groove':
         return (
-          <svg className="w-16 h-16 text-yellow-400" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="2" strokeDasharray="5 5" />
-            <path d="M20 70 L30 30 L50 48 L70 30 L80 70 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-            <circle cx="20" cy="70" r="3" fill="currentColor" />
-            <circle cx="80" cy="70" r="3" fill="currentColor" />
-            <circle cx="50" cy="48" r="4" fill="currentColor" />
+          <svg className="w-16 h-16 text-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]" viewBox="0 0 100 100" fill="none">
+            {/* Celestial Crown + Star Burst */}
+            <path d="M50 12 L54 28 L70 28 L57 38 L62 54 L50 44 L38 54 L43 38 L30 28 L46 28 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
+            <path d="M30 75 L38 58 L50 66 L62 58 L70 75" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="50" cy="44" r="5" fill="currentColor" />
+            <circle cx="30" cy="75" r="3.5" fill="currentColor" />
+            <circle cx="70" cy="75" r="3.5" fill="currentColor" />
           </svg>
         );
       case 'Mestre do Pulso':
         return (
-          <svg className="w-16 h-16 text-cyan-400" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="2" />
-            <path d="M50 20 L80 50 L50 80 L20 50 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="4" />
-            <circle cx="50" cy="50" r="15" stroke="currentColor" strokeWidth="2.5" />
+          <svg className="w-16 h-16 text-cyan-400 filter drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]" viewBox="0 0 100 100" fill="none">
+            {/* Laurel Wreath around a drum */}
+            <circle cx="50" cy="50" r="28" stroke="currentColor" strokeWidth="4" strokeDasharray="3 5" />
+            <path d="M30 35 C25 45, 25 55, 30 65 M70 35 C75 45, 75 55, 70 65" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+            <path d="M30 40 L40 40 M30 50 L40 50 M30 60 L40 60 M70 40 L60 40 M70 50 L60 50 M70 60 L60 60" stroke="currentColor" strokeWidth="2.5" />
+            <path d="M40 45 L60 45 M40 55 L60 55" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
           </svg>
         );
       case 'Sargento Rítmico':
         return (
-          <svg className="w-16 h-16 text-purple-400" viewBox="0 0 100 100" fill="none">
-            <path d="M50 15 L80 40 L65 80 L35 80 L20 40 Z" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="3.5" />
-            <line x1="35" y1="55" x2="65" y2="55" stroke="currentColor" strokeWidth="3" />
-            <line x1="40" y1="65" x2="60" y2="65" stroke="currentColor" strokeWidth="3" />
+          <svg className="w-16 h-16 text-purple-400 filter drop-shadow-[0_0_8px_rgba(192,132,252,0.3)]" viewBox="0 0 100 100" fill="none">
+            {/* Triple sleek chevrons */}
+            <path d="M30 30 L50 48 L70 30" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M30 42 L50 60 L70 42" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M30 54 L50 72 L70 54" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="50" cy="24" r="4.5" fill="currentColor" />
           </svg>
         );
       case 'Cadete do Groove':
         return (
-          <svg className="w-16 h-16 text-pink-400" viewBox="0 0 100 100" fill="none">
-            <path d="M30 35 L50 20 L70 35 L70 70 L50 85 L30 70 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="3" />
-            <circle cx="50" cy="52" r="10" stroke="currentColor" strokeWidth="2" />
+          <svg className="w-16 h-16 text-pink-400 filter drop-shadow-[0_0_8px_rgba(244,63,94,0.3)]" viewBox="0 0 100 100" fill="none">
+            {/* Double chevrons and notes */}
+            <path d="M32 35 L50 51 L68 35" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M32 49 L50 65 L68 49" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="50" cy="28" r="4" fill="currentColor" />
           </svg>
         );
       default:
         // Recruta do Pulso
         return (
-          <svg className="w-16 h-16 text-orange-400" viewBox="0 0 100 100" fill="none">
-            <path d="M30 25 L50 50 L70 25 M30 45 L50 70 L70 45" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
+          <svg className="w-16 h-16 text-orange-400 filter drop-shadow-[0_0_8px_rgba(251,146,60,0.3)]" viewBox="0 0 100 100" fill="none">
+            {/* Single chevron + Star */}
+            <path d="M35 45 L50 58 L65 45" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.8" />
+            <path d="M50 20 L53 29 L62 29 L55 35 L57 44 L50 38 L43 44 L45 35 L38 29 L47 29 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2.5" />
           </svg>
         );
     }
