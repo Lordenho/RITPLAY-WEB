@@ -1,0 +1,6 @@
+{
+  "name": "RitPlay",
+  "description": "RitPlay is a mobile-first rhythmic training web application for temporal perception, internal pulse development, and cadence composition.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
