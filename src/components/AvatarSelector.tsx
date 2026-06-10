@@ -100,6 +100,25 @@ export function renderAvatarSvg(id: number, sizeClass: string = 'w-12 h-12') {
   );
 }
 
+export function AvatarImage({ id, sizeClass = 'w-12 h-12', className = '' }: { id: number, sizeClass?: string, className?: string }) {
+  const [hasError, setHasError] = useState(false);
+  const avatarUrl = `https://lucasgandrade.github.io/ritplay/02-WEBVIEW-APP-PRIORIDADE/images/avatars/avatar${id}.png`;
+
+  if (hasError) {
+    return renderAvatarSvg(id, sizeClass);
+  }
+
+  return (
+    <img
+      src={avatarUrl}
+      alt={AVATAR_NAMES[id - 1] || 'Avatar'}
+      className={`${sizeClass} rounded-full border border-gray-800/80 bg-gray-900 object-cover shadow-md ${className}`}
+      onError={() => setHasError(true)}
+      referrerPolicy="no-referrer"
+    />
+  );
+}
+
 export default function AvatarSelector({ currentAvatarId, onSelect, onClose }: AvatarSelectorProps) {
   const [selected, setSelected] = useState<number>(currentAvatarId);
 
@@ -133,7 +152,7 @@ export default function AvatarSelector({ currentAvatarId, onSelect, onClose }: A
         {/* Live Preview section */}
         <div className="bg-[#090d16] p-4 flex items-center justify-center space-x-4 border-b border-gray-800/60">
           <div className="relative">
-            {renderAvatarSvg(selected, 'w-20 h-20')}
+            <AvatarImage id={selected} sizeClass="w-20 h-20" />
             <span className="absolute -bottom-1.5 -right-1.5 bg-pink-500 text-white rounded-full p-0.5 px-2 text-[10px] font-bold font-mono">
               #{selected}
             </span>
@@ -161,7 +180,7 @@ export default function AvatarSelector({ currentAvatarId, onSelect, onClose }: A
                   }`}
                 >
                   <div className="relative">
-                    {renderAvatarSvg(avatarId, 'w-10 h-10')}
+                    <AvatarImage id={avatarId} sizeClass="w-10 h-10" />
                     {isChosen && (
                       <div className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full p-0.5">
                         <Check className="w-2.5 h-2.5" />

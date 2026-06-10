@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Trophy, Award, Zap, ShieldAlert, Sparkles, User, RefreshCw } from 'lucide-react';
 import { LeaderboardUser } from '../types';
 import { ApiClient } from '../utils/ApiClient';
-import { renderAvatarSvg } from './AvatarSelector';
+import { AvatarImage } from './AvatarSelector';
 
 interface GlobalRankingProps {
   currentUsername: string;
@@ -136,7 +136,7 @@ export default function GlobalRanking({ currentUsername }: GlobalRankingProps) {
                     {getRankIcon(placement)}
                   </div>
                   <div className="relative">
-                    {renderAvatarSvg(entry.avatarId, 'w-10 h-10')}
+                    <AvatarImage id={entry.avatarId} sizeClass="w-10 h-10" />
                   </div>
                   <div>
                     <div className="flex items-center space-x-1">

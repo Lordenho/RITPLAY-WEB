@@ -8,7 +8,7 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip as ChartToo
 import { Award, Target, Zap, Clock, Calendar, CheckCircle, LogOut, ChevronRight, Crown, ShieldAlert, Sparkles, Flame, Volume2 } from 'lucide-react';
 import { User, ScoreHistoryEntry } from '../types';
 import { ApiClient } from '../utils/ApiClient';
-import { renderAvatarSvg } from './AvatarSelector';
+import { AvatarImage } from './AvatarSelector';
 
 interface UserProfileProps {
   user: User;
@@ -92,7 +92,7 @@ export default function UserProfile({ user, onLogout, onOpenAvatarSelector }: Us
 
         {/* Change Avatar trigger (renders beautiful SVG) */}
         <div className="relative group cursor-pointer mt-2" onClick={onOpenAvatarSelector}>
-          {renderAvatarSvg(user.avatarId, 'w-20 h-20')}
+          <AvatarImage id={user.avatarId} sizeClass="w-20 h-20" />
           <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <span className="text-[9px] text-white font-bold font-mono">EDITAR</span>
           </div>
